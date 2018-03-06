@@ -1,0 +1,35 @@
+<div class="container signIn">
+	<div [hidden]="submitted">
+		<h1>Log In</h1>
+		<form (ngSubmit)="onSubmit(); signin.reset()" #signin="ngForm" class="login-form">
+			<div *ngIf='loginFail' class="alert alert-danger" (click)="loginFail = false">
+				<strong>Invalid mobile or password</strong>
+			</div>
+			<div class="form-group">
+				<label for="name">Mobile</label>
+				<input type="text" class="form-control" id="mobile"
+               required
+               [(ngModel)]="model.mobile" name="mobile"
+               #mobile="ngModel"/>
+				<div [hidden]="mobile.valid || mobile.pristine"
+             class="alert alert-danger">
+           Mobile Number is required
+        </div>
+			</div>
+			<div class="form-group">
+				<label for="name">Password</label>
+				<input type="text" class="form-control" id="password"
+               required
+               [(ngModel)]="model.password" name="password"
+               #password="ngModel" />
+				<div [hidden]="password.valid || password.pristine"
+             class="alert alert-danger">
+          Password is required
+        </div>
+			</div>
+			<button  type="submit" class="btn btn-success btn-md btnStyle" [disabled]="!signin.form.valid"   routerLinkActive="active">Log In</button>
+			<button  type="button" class="btn btn-primary btn-md btnStyle"  routerLink="/signUp" routerLinkActive="active">Register</button>
+			<label ><input #rememberVal type="checkbox" name="rememberMe" value="true" [(ngModel)]="rememberMe"> Remember Me</label>
+			</form>
+		</div>
+	</div>

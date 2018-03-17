@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { DataService } from '../data.service';
 import {Observable} from 'rxjs/Rx';
 import { FormControl } from '@angular/forms';
+import {Router} from '@angular/router';
+//import { google } from 'google/googleMap';
+
 @Component({
     selector: 'app-signup',
     templateUrl: './signup.component.html',
@@ -50,21 +53,20 @@ export class SignupComponent {
             id: '5'
         },
     ];
-    
    public model={"companyName":"","ownerName":"","mobile":"","password":"","email":"","businessAddress":"","city":"","state":"","country":"","website":"","category":"","reg":""};
     submitted = false;
     showAddr = false;
-    registrationFailed =false;  
-    public addr;
+    registrationFailed =false;
+    latlng:any;
+    mobileOTP:any;
 
-    constructor(private _demoService: DataService) {}
+    constructor(private _demoService: DataService, private router: Router) {}
 
     onSubmit() {
         this.registerUser(this.model);
         console.log(this.model)
     }
     update(value: string) {
-        //this.addr = value.split(/[ ,.]+/);
         if (value != null)
             this.addressDetails(value)
     }
@@ -79,16 +81,12 @@ export class SignupComponent {
       }
     }
 
-    registerUser(data) {
-        let JsonData = {
-            details: data
-        };
-        console.log(data)
-        this._demoService.registerUser(data).subscribe(
+    registerUser(dataJson) {
+          this.mobileOTP = dataJson.mobile;
+        this._demoService.registerUser(dataJson).subscribe(
             data => {
-                console.log(data)
                 console.log("Data saved successfully!");
-                this.submitted = true;
+                  this.sendOtp(  this.mobileOTP )
                 return true;
             },
             error => {
@@ -112,6 +110,17 @@ export class SignupComponent {
                 return Observable.throw(error);
             }
         );
+    }
+
+    sendOtp(mobileNum){
+          this.router.navigate(['/', 'otpVerification']);
+          this._demoService.sendOtp(mobileNum).subscribe(
+             data => {
+               this._demoService.changeMessage(mobileNum+'Regi')
+             },
+             error => {
+             }
+          );
     }
 
 }

@@ -1,6 +1,4 @@
-.signIn{
-  width: 40%;
-  height: auto;
+.reset-pswd{
   background-color: #9EEBA1;
   border-radius: 10px;
   border: 1px solid;
@@ -10,17 +8,3 @@
 	-moz-box-shadow: 0 10px 6px -6px #777;
 	 box-shadow: 0 10px 6px -6px #777;
  }
-
-.btnStyle{
-  width: 230px;
-}
-
-.login-form{
-  margin: 20px;
-}
-
-.forgotPwd:hover{
-  cursor: pointer;
-  color: #1b69b6;
-  text-decoration:underline;
-}

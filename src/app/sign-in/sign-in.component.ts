@@ -15,7 +15,7 @@ export class SignInComponent  {
 messageSource:number;
   cookieValue = 'UNKNOWN';
   public model: any = {mobile:'',password:''};
-    mobileNumVal:number;
+    mobileNumVal:any;
     submitted = false;
     rememberMe = false;
     loginFail = false;
@@ -54,11 +54,14 @@ messageSource:number;
       console.log(this.mobileNumVal);
           this.router.navigate(['/', 'otpVerification']);
           document.getElementById('modalWindow').click();
+          this.cookieService.set('resetPwdMobile',this.mobileNumVal);
           this._demoService.sendOtp(this.mobileNumVal).subscribe(
              data => {
                this._demoService.changeMessage(data)
              },
              error => {
+               this.cookieService.delete('resetPwdMobile');
+
              }
           );
     }
@@ -67,11 +70,16 @@ messageSource:number;
          let JsonData = data;
          this._demoService.logInUser(JsonData).subscribe(
             data => {
+              if(data == true){
               console.log(data)
               console.log("valid user!");
               this.submitted = true;
               this.router.navigate(['/', 'userData']);
               return true;
+            }else{
+              console.error("not registered!");
+              this.loginFail =true;
+            }
             },
             error => {
               console.error("not registered!");

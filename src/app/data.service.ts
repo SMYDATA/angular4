@@ -18,39 +18,80 @@ export class DataService {
     private messageSource = new BehaviorSubject<number>(12345);
     cast = this.messageSource.asObservable();
 
+    private newBusiness = new BehaviorSubject<boolean>(false);
+    newBusinessVal = this.newBusiness.asObservable();
+
+    private editBusiness = new BehaviorSubject<boolean>(false);
+    editBusinessDetails = this.editBusiness.asObservable();
+
      changeMessage(message: any) {
        console.log('message:servuce:'+message);
        this.messageSource.next(message);
      }
 
+     isNewBusiness(value: boolean) {
+       console.log('isNewBusiness:service:'+value);
+       this.newBusiness.next(value);
+     }
+
+     editBusinessData(data:any){
+       console.log(data)
+       this.editBusiness.next(data);
+     }
+
     registerUser(data) {
         let body = JSON.stringify(data);
         console.log(data)
-        var url = 'http://localhost:8585/api/saveUser';
+        let url = 'http://localhost:8585/api/saveUser/registration';
         console.log(url)
         return this.http.post(url, body, httpOptions);
     }
 
+    addingNewBusiness(data) {
+        let body = JSON.stringify(data);
+        console.log(data)
+        let url = 'http://localhost:8585/api/saveUser/add';
+        console.log(url)
+        return this.http.post(url, body, httpOptions);
+    }
+
+    editBusinessService(editData){
+      console.log(editData)
+      let url = 'http://localhost:8585/api/saveUser/edit';
+      return this.http.post(url, editData)
+    }
+
+    viewMyBusiness(){
+   let url = 'http://localhost:8585/api/viewMyBusiness';
+    return this.http.get(url)
+  }
+
     logInUser(data) {
         console.log(data)
-        var url = 'http://localhost:8585/api/loginUser';
+        let url = 'http://localhost:8585/api/loginUser';
         return this.http.post(url, data)
     }
 
     getLocationDetails(place) {
         console.log(place)
-        var url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + place.details + '&key=' + key;
+        let url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + place.details + '&key=' + key;
         return this.http.get(url)
     }
 
     sendOtp(number){
     console.log('In service sendOtp:: '+number)
-      var url = 'http://localhost:8585/api/sendOtp/'+number;
+      let url = 'http://localhost:8585/api/sendOtp/'+number;
       return this.http.get(url)
     }
 
-    resetpassword(pwd){
-      var url = 'http://localhost:8585/api/resetPwd/'+pwd;
-      return this.http.get(url, pwd)
+    resetpassword(pwd,mobile){
+      console.log(pwd + mobile)
+      let url = 'http://localhost:8585/api/resetPwd/'+pwd;
+      return this.http.get(url, pwd )
     }
+    doesUserExist(mobile){
+      var url = 'http://localhost:8585/api/loginUser';
+      return this.http.get(url,mobile);
+    }
+
 }

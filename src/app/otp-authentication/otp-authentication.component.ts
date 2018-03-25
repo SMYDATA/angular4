@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 import {Router} from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+
 
 
 
@@ -19,8 +21,10 @@ export class OtpAuthenticationComponent {
   errorDisplay:boolean;
   invalidOtp:boolean;
   errMsg:string;
+  mobile:any;
+  successRegPopUp:boolean;
 
-    constructor(private data: DataService, private router: Router) { }
+    constructor(private data: DataService, private router: Router,  private cookieService: CookieService) { }
   ngOnInit() {
     this.resetPwd = false;
     this.data.cast.subscribe(messageSource => this.messageSource = messageSource)
@@ -31,7 +35,8 @@ export class OtpAuthenticationComponent {
   this.data.cast.subscribe(messageSource => this.messageSource = messageSource)
   console.log('verifyOtp::'+this.messageSource);
   if(this.messageSource == (this.otpValue+'Regi')){
-    this.router.navigate(['/', 'userData']);
+    this.successRegPopUp = true;
+//    this.router.navigate(['/', 'userData']);
   }else if(this.messageSource == this.otpValue){
     this.resetPwd = true;
   }else{
@@ -40,7 +45,8 @@ export class OtpAuthenticationComponent {
 }
   resetPswd(){
     if (this.pwdValNew == this.pwdValCnf) {
-      this.data.resetpassword(this.pwdValNew).subscribe(
+      this.mobile = this.cookieService.get('resetPwdMobile');
+      this.data.resetpassword(this.pwdValNew,this.mobile).subscribe(
          data => {
            this.router.navigate(['/', 'userData']);
            return true;

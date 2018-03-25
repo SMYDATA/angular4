@@ -1,3 +1,36 @@
-<h1 style="text-align:center;">
-  Welcome to SMyData!!!!
-</h1>
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+
+  <div class="navbar-header">
+        <a class="navbar-brand" href="#"><h2>SMyData</h2></a>
+      </div>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          profile
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li class="dropdown-item" (click)='addNewBusiness();showbusinessList = false' >Add New Business</li>
+          <li class="dropdown-item" (click)='showBuList();showeditForm = false;showRegForm = false'>view my business</li>
+          <div class="dropdown-divider"></div>
+          <li class="dropdown-item" href="#">Rewards</li>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div  class="mt-5 pt-5 col-md-6 col-md-offset-3" *ngIf ='showbusinessList'>
+  <h2>Business List</h2>
+<ul class="list-group" >
+  <li class="list-group-item" *ngFor="let item of businessList" (click)='viewBusinessDetails(item)'>{{item.companyName}}</li>
+</ul>
+</div>
+
+<div class="mt-5 pt-5">
+  <app-signup *ngIf='showRegForm'  id="formData"></app-signup>
+</div>
+<div class="mt-5 pt-5">
+  <app-signup *ngIf='showeditForm'  id="formData"></app-signup>
+</div>

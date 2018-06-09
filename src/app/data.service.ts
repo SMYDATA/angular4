@@ -94,4 +94,28 @@ export class DataService {
       return this.http.get(url,mobile);
     }
 
+    customerExist(mobile){
+      console.log(mobile)
+      var url = 'http://localhost:8585/api/getUserDetail/'+mobile;
+      return this.http.get(url,mobile);
+    }
+
+    createUser(data){
+      console.log(data)
+      var url = 'http://localhost:8585/api/saveUser';
+      return this.http.post(url,data);
+    }
+    createTicket(data){
+      console.log(data)
+      var url = 'http://localhost:8585/api/createTicket';
+      return this.http.post(url,data);
+    }
+    requestReport(data,type){
+    console.log('Innn service strtDate: '+data.startDate +' endDate:'+data.endDate);
+      console.log(data)
+      var url = 'http://localhost:8585/api/'+type+'/'+data.startDate+'/'+data.endDate;
+      console.log(url)
+      return this.http.get(url,data);
+    }
+
 }

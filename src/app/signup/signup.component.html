@@ -1,4 +1,10 @@
-<div class="container signUp">
+<div   style="margin-top:75px" *ngIf ='showbusinessList'>
+  <h2>Business List</h2>
+<ul class="list-group" >
+  <li class="list-group-item" *ngFor="let item of businessList" (click)='viewBusinessDetails(item)'>{{item.companyName}}</li>
+</ul>
+</div>
+<div class="signUp col-sm-12 col-md-4 col-md-offset-4" *ngIf ='!showbusinessList'>  
    <div [hidden]="submitted">
       <h1>{{formTitle}}</h1>
       <form (ngSubmit)="onSubmit(); signup.reset()" #signup="ngForm" class="signup-form">
@@ -29,10 +35,10 @@
       </div>
       <div class="form-group" *ngIf='!addNew'>
          <label for="name">Mobile number</label>
-         <input type="text" class="form-control" id="mobile"
-         required
+         <input type="text" class="form-control"
+         required [readonly]="businessEditableForm"
          (keyup.enter)="doesUserExist(mobile.value);"
-         (blur)="doesUserExist(mobile.value)"
+         (change)="doesUserExist(mobile.value);validation('pattern_mobile',mobile.value)"
          [(ngModel)]="model.mobile" name="mobile"
          #mobile="ngModel"/>
          <div [hidden]="mobile.valid || mobile.pristine"
@@ -43,19 +49,24 @@
       </div>
       <div class="form-group" *ngIf='!addNew'>
          <label for="name">Password</label>
-         <input type="password" class="form-control" id="password"
-         required
-         [(ngModel)]="model.password" name="password"
+         <input type="password" class="form-control" id="password" [readonly]="businessEditableForm"
+         required   (change)="validation('pattern_password',password.value)"
+         [(ngModel)]="model.password" name="password" placeholder="Min 6 Characters"
          #password="ngModel"/>
          <div [hidden]="password.valid || password.pristine"
             class="alert alert-danger">
             password is required
          </div>
       </div>
-      <div class="form-group">
+      <div class="form-group" *ngIf='!addNew'>
          <label for="alterEgo">Email address</label>
-         <input type="text" class="form-control" id="alterEgo"
-         [(ngModel)]="model.email" name="alterEgo">
+         <input type="text" class="form-control" id="email" [readonly]="businessEditableForm"
+         (change)="validation('pattern_email',email.value)" required
+         [(ngModel)]="model.email" #email="ngModel" name="alterEgo">
+         <div [hidden]="email.valid || email.pristine"
+            class="alert alert-danger">
+            Email is required
+         </div>
       </div>
       <div class="form-group">
          <label for="name">Business address</label>
@@ -72,7 +83,7 @@
       <div class="form-group flex-item-buAdd">
          <label for="name">PIN Code</label>
          <input type="text" class="form-control" id="pin"
-         required
+         required  (change)="validation('pattern_pinCode',pin.value)"
          [(ngModel)]="model.pinCode" name="pin"
          #pin="ngModel"/>
          <div [hidden]="pin.valid || pin.pristine"

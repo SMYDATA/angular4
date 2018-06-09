@@ -4,6 +4,9 @@ import {Observable} from 'rxjs/Rx';
 import {WebStorageService} from 'angular-webstorage-service';
 import {Router} from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { ToastsManager,ToastOptions  } from 'ng5-toastr/ng5-toastr';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
 
 @Component({
   selector: 'app-sign-in',
@@ -22,8 +25,11 @@ messageSource:number;
     public data:any=[];
     storage: any=[];
     allCookies;
+    view = true;
+    public pattern_mobile = /([0-9]){10}/g;
 
-    constructor(private _demoService: DataService, private router: Router, private cookieService: CookieService) { }
+
+    constructor(private _demoService: DataService, private router: Router, private cookieService: CookieService,  private toastr:ToastsManager) { }
 
     ngOnInit(): void {
       this._demoService.cast.subscribe(messageSource => this.messageSource = messageSource)
@@ -88,5 +94,15 @@ messageSource:number;
             }
          );
        }
+
+       validation(){
+         console.log("in validation method:");
+         if (!this.pattern_mobile.test(this.model.mobile)) {
+                 this.toastr.error("Please enter valid mobile number", 'Error',[{dismiss: 'click'},{maxShown:'1'}]);
+                 this.model.mobile = '';
+           }else{
+             this.toastr.clearAllToasts();
+           }
+         }
 
 }

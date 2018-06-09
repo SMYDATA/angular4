@@ -36,7 +36,7 @@ export class OtpAuthenticationComponent {
   console.log('verifyOtp::'+this.messageSource);
   if(this.messageSource == (this.otpValue+'Regi')){
     this.successRegPopUp = true;
-//    this.router.navigate(['/', 'userData']);
+   this.router.navigate(['/', 'signIn']);
   }else if(this.messageSource == this.otpValue){
     this.resetPwd = true;
   }else{
@@ -48,7 +48,7 @@ export class OtpAuthenticationComponent {
       this.mobile = this.cookieService.get('resetPwdMobile');
       this.data.resetpassword(this.pwdValNew,this.mobile).subscribe(
          data => {
-           this.router.navigate(['/', 'userData']);
+           this.router.navigate(['/', 'signIn']);
            return true;
          },
          error => {

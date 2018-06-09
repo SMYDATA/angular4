@@ -1,4 +1,4 @@
-<div class="container signIn">
+<div class="container-fluid signIn center20">
 	<div [hidden]="submitted">
 		<h1>Log In</h1>
 		<form (ngSubmit)="onSubmit(); signin.reset()" #signin="ngForm" class="login-form">
@@ -8,7 +8,7 @@
 			<div class="form-group">
 				<label for="name">Mobile</label>
 				<input type="text" class="form-control" id="mobile"
-               required
+               required (change)="validation()"
                [(ngModel)]="model.mobile" name="mobile"
                #mobile="ngModel"/>
 				<div [hidden]="mobile.valid || mobile.pristine"
@@ -27,8 +27,10 @@
           Password is required
         </div>
 			</div>
-			<button  type="submit" class="btn btn-success btn-md btnStyle" [disabled]="!signin.form.valid" >Log In</button>
-			<button  type="button" class="btn btn-primary btn-md btnStyle"  routerLink="/signUp">Register</button>
+			<div class=""row>
+			<button  type="submit" class="btn btn-success btn-md  col-sm-6" [disabled]="!signin.form.valid" >Log In</button>
+			<button  type="button" class="btn btn-primary btn-md col-sm-6"  routerLink="/signUp">Register</button>
+		</div>
 <div>
 			<label ><input #rememberVal type="checkbox" name="rememberMe" value="true" [(ngModel)]="rememberMe"> Remember Me</label>
 			<div class="pull-right forgot-password">

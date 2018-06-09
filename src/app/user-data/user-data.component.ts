@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Rx';
 import {Router} from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 
+
 @Component({
   selector: 'app-user-data',
   templateUrl: './user-data.component.html',
@@ -16,6 +17,12 @@ addNewBusinessForm:any;
 showeditForm:boolean;
 businessList:any;
 showbusinessList:boolean;
+myInfo:boolean;
+invoice;
+payables;
+receivables;
+profile;
+
 
   constructor(private _demoService: DataService, private router: Router, private cookieService: CookieService) { }
   ngOnInit() {
@@ -24,6 +31,7 @@ showbusinessList:boolean;
   }
 addNewBusiness(){
   this.showeditForm = false;
+  this.invoice = this.payables=this.receivables = false;
  this._demoService.isNewBusiness(true);
  this.showRegForm = this.addNewBusinessForm;
 }
@@ -43,9 +51,15 @@ showBuList(){
        this.businessList = data;
      },
      error => {
-    
+
      }
   );
+}
+
+sideNav(value){
+  this[value] = true;
+  this.profile = false;
+  console.log('show-'+value);
 }
 
 }
